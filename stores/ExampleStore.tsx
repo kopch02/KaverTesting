@@ -1,12 +1,10 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import {makeAutoObservable, runInAction} from 'mobx';
 import axios from 'axios';
 import Config from 'react-native-config';
 import unsplashApi from '../api/api';
-import { Int32 } from 'react-native/Libraries/Types/CodegenTypes';
+import {Int32} from 'react-native/Libraries/Types/CodegenTypes';
 
-
-
-class PexelsStore {
+class UnsplashStore {
   photos: string[] = [];
   loading: boolean = false;
   error: string | null = null;
@@ -15,19 +13,19 @@ class PexelsStore {
     makeAutoObservable(this);
   }
 
-  async searchPhotos(query: string, count: Int32) {
+  async searchPhotos(query: string, count: Int32 = 30) {
     this.loading = true;
     this.error = null;
     console.log('Поиск фотографий начался...');
 
     try {
-      const response = await unsplashApi.get('/search/photos', {
-        params: { query, per_page: 30 },
+      const response = await unsplashApi.get('/photos/random', {
+        params: {query, count: count},
       });
       runInAction(() => {
         // console.log('Ответ получен:', response.data);
         console.log('Ответ получен');
-        this.photos = response.data.results.map((photo: any) => photo.urls.small);
+        this.photos = response.data.map((photo: any) => photo.urls.regular);
         this.loading = false;
       });
     } catch (error) {
@@ -35,7 +33,7 @@ class PexelsStore {
         this.loading = false;
         if (axios.isAxiosError(error)) {
           if (error.response) {
-            console.error('Ошибка ответа сервера:', error.response.data);
+            console.error('Ошибка ответа сервера:', error);
             this.error = error.response.data;
           } else if (error.request) {
             console.error('Ошибка запроса:', error.request);
@@ -44,14 +42,15 @@ class PexelsStore {
             console.error('Ошибка запроса:', error.message);
             this.error = error.message;
           }
-        console.error('Конфигурация ошибки:', error.config);
+          console.error('Конфигурация ошибки:', error.config);
         } else {
           console.error('Неизвестная ошибка:', error);
           this.error = 'Неизвестная ошибка';
         }
       });
     }
+    return this.photos
   }
 }
 
-export const pexelsStore = new PexelsStore();
+export const unsplashStore = new UnsplashStore();

@@ -1,36 +1,108 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, Button, ScrollView, TextInput } from 'react-native';
-import { observer } from 'mobx-react-lite';
-import { pexelsStore } from './stores/ExampleStore';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Button,
+  ScrollView,
+  TextInput,
+  RefreshControl,
+  FlatList,
+  ActivityIndicator,
+  Modal,
+  TouchableOpacity,
+} from 'react-native';
+import {observer} from 'mobx-react-lite';
+import {unsplashStore} from './stores/ExampleStore';
 
 const App = observer(() => {
+  const [text, setText] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [photos, setPhotos] = useState<string[]>([]);
+
+  const addPhotos = (newPhotos: string[]) => {
+    setPhotos(prevPhotos => [...prevPhotos, ...newPhotos]);
+  };
+
   useEffect(() => {
-    pexelsStore.searchPhotos('Nature', 5);
+    const fetchData = async () => {
+      const res = await unsplashStore.searchPhotos('')
+      setPhotos(res);
+    };
+    fetchData();
   }, []);
 
-  const [text, setText] = useState("");
-//={q => pexelsStore.searchPhotos(text, 100)}
+  const onRefresh = async () => {
+    setRefreshing(true);
+    const res = await unsplashStore.searchPhotos(text)
+    setPhotos(res);
+    setRefreshing(false);
+  };
+
+  const SearchOnPress = async () => {
+    const res = await unsplashStore.searchPhotos(text)
+    setPhotos(res);
+  };
+
+  const renderItem = ({item}: { item: string }) => (
+    <TouchableOpacity style={styles.imageContainer} onPress={() => handleImagePress(item)}>
+      <Image source={{ uri: item }} style={styles.image} />
+    </TouchableOpacity>
+  );
+
+  const handleEndReached = async () => {
+    const res = await unsplashStore.searchPhotos(text)
+    addPhotos(res)
+  };
+
+  const handleImagePress = (imageUri:string) => {
+    setSelectedImage(imageUri);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+    setModalVisible(false);
+  };
 
   return (
-    <ScrollView contentContainerStyle={styles.container} >
-      <TextInput style={styles.text_input} onChangeText={text => setText(text)}>asd</TextInput>
-      <Button title="Search" onPress={() => pexelsStore.searchPhotos(text, 5)} />
-      {pexelsStore.loading && <Text>Loading...</Text>}
-      {pexelsStore.error && <Text>Error: {pexelsStore.error}</Text>}
-      <View style={styles.row}>
-        {pexelsStore.photos.map((photoUrl, index) => (
-          <View key={index} style={styles.imageContainer}>
-            <Image source={{ uri: photoUrl }} style={styles.image} />
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+    <View>
+      <TextInput
+        style={styles.text_input}
+        onChangeText={text => setText(text)} 
+        onEndEditing={() => SearchOnPress()}
+        placeholder='Поиск'></TextInput>
+    <FlatList
+    data={photos}
+    renderItem={renderItem}
+    keyExtractor={(item, index) => index.toString()}
+    numColumns={2}
+    contentContainerStyle={styles.container}
+    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+    onEndReached={handleEndReached}
+    >
+    </FlatList>
+    <Modal
+        visible={modalVisible}
+        transparent={true}
+        onRequestClose={closeModal}
+      >
+        <TouchableOpacity style={styles.modalContainer} onPress={closeModal}>
+        {selectedImage && (
+            <Image source={{ uri: selectedImage }} style={styles.modalImage} />
+          )}
+        </TouchableOpacity>
+      </Modal>
+    </View>
   );
 });
 
 const styles = StyleSheet.create({
   container: {
-    display:'flex',
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
@@ -43,16 +115,29 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   imageContainer: {
-    width: '30%',
+    width: '50%',
     padding: 5,
-  },
+    },
   image: {
     aspectRatio: 1,
+    borderRadius:10,
   },
   text_input: {
-    borderWidth: 1,
-    borderRadius:10,
+    // borderWidth: 1,
+    borderRadius: 10,
     width: '100%',
+    padding:10
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+  modalImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
 });
 
