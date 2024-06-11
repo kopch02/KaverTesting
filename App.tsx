@@ -1,117 +1,58 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, StyleSheet, Button, ScrollView, TextInput } from 'react-native';
+import { observer } from 'mobx-react-lite';
+import { pexelsStore } from './stores/ExampleStore';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const App = observer(() => {
+  useEffect(() => {
+    pexelsStore.searchPhotos('Nature', 5);
+  }, []);
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const [text, setText] = useState("");
+//={q => pexelsStore.searchPhotos(text, 100)}
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ScrollView contentContainerStyle={styles.container} >
+      <TextInput style={styles.text_input} onChangeText={text => setText(text)}>asd</TextInput>
+      <Button title="Search" onPress={() => pexelsStore.searchPhotos(text, 5)} />
+      {pexelsStore.loading && <Text>Loading...</Text>}
+      {pexelsStore.error && <Text>Error: {pexelsStore.error}</Text>}
+      <View style={styles.row}>
+        {pexelsStore.photos.map((photoUrl, index) => (
+          <View key={index} style={styles.imageContainer}>
+            <Image source={{ uri: photoUrl }} style={styles.image} />
+          </View>
+        ))}
+      </View>
+    </ScrollView>
   );
-}
+});
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    display:'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    marginVertical: 10,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  imageContainer: {
+    width: '30%',
+    padding: 5,
   },
-  highlight: {
-    fontWeight: '700',
+  image: {
+    aspectRatio: 1,
+  },
+  text_input: {
+    borderWidth: 1,
+    borderRadius:10,
+    width: '100%',
   },
 });
 
