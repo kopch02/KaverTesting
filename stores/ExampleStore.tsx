@@ -49,7 +49,7 @@ class UnsplashStore {
         }
       });
     }
-    return this.photos
+    return this.photos;
   }
 }
 
