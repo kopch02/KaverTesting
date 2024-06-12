@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-} from 'react-native';
+import {View, Text} from 'react-native';
 import {observer} from 'mobx-react-lite';
-import { unsplashStore } from '../../stores/ExampleStore';
+import {unsplashStore} from '../../stores/ExampleStore';
 
 import ImageModal from '../../modals/ImageModal/ImageModal';
 import Search from '../../components/Search/Search';
@@ -23,8 +20,8 @@ const HomeScreen = observer(() => {
 
   useEffect(() => {
     const fetchData = async () => {
-      //   const res = await unsplashStore.searchPhotos('')
-      //   setPhotos(res);
+      const res = await unsplashStore.searchPhotos('');
+      setPhotos(res);
     };
     fetchData();
   }, []);
