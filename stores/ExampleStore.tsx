@@ -1,6 +1,5 @@
 import {makeAutoObservable, runInAction} from 'mobx';
 import axios from 'axios';
-import Config from 'react-native-config';
 import unsplashApi from '../api/api';
 import {Int32} from 'react-native/Libraries/Types/CodegenTypes';
 
