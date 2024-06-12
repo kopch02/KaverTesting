@@ -11,6 +11,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@ngenux/react-native-pinch-zoom-view": "^0.1.1",
+    "@openspacelabs/react-native-zoomable-view": "^2.1.6",
     "axios": "^1.7.2",
     "http": "^0.0.1-security",
     "mobx": "^6.12.3",

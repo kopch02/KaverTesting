@@ -2090,6 +2090,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ngenux/react-native-pinch-zoom-view@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@ngenux/react-native-pinch-zoom-view@npm:0.1.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: f272285763e09297a5dd30f3b25a0b9e32bd05a4ca26c7228b77d73200fbe85a466d8893d384e3edb7b05fda449d0a556bfdccd74e302da0fd83cd8fc9617f5f
+  languageName: node
+  linkType: hard
+
 "@nicolo-ribaudo/eslint-scope-5-internals@npm:5.1.1-v1":
   version: 5.1.1-v1
   resolution: "@nicolo-ribaudo/eslint-scope-5-internals@npm:5.1.1-v1"
@@ -2145,6 +2155,18 @@ __metadata:
   dependencies:
     semver: ^7.3.5
   checksum: d960cab4b93adcb31ce223bfb75c5714edbd55747342efb67dcc2f25e023d930a7af6ece3e75f2f459b6f38fc14d031c766f116cd124fdc937fd33112579e820
+  languageName: node
+  linkType: hard
+
+"@openspacelabs/react-native-zoomable-view@npm:^2.1.6":
+  version: 2.2.0
+  resolution: "@openspacelabs/react-native-zoomable-view@npm:2.2.0"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">=16.8.0"
+    react-native: ">=0.54.0"
+  checksum: 3227ec0954b52440ed3a69781582c08901df7a8fc265ceed4eef3d948a1826f4ccf293a45fe14d2f93e1d8863e5122563543ba506c11bfe37a3679f12ddb6027
   languageName: node
   linkType: hard
 
@@ -3010,6 +3032,8 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
+    "@ngenux/react-native-pinch-zoom-view": ^0.1.1
+    "@openspacelabs/react-native-zoomable-view": ^2.1.6
     "@react-native/babel-preset": 0.74.84
     "@react-native/eslint-config": 0.74.84
     "@react-native/metro-config": 0.74.84
@@ -8031,7 +8055,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.8.1":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
