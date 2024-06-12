@@ -33,17 +33,24 @@ const ImageModal: React.FC<ImageModalProps> = ({
     }
   };
 
+  const DoubleTap = (
+    event: GestureResponderEvent,
+    zoomableViewEventObject: ZoomableViewEvent,
+  ) => {
+    zoomableViewEventObject.zoomLevel += 6;
+  };
+
   return (
     <Modal
       visible={modalVisible}
       transparent={true}
       onRequestClose={closeModal}>
       <ReactNativeZoomableView
-        maxZoom={20}
+        maxZoom={10}
         minZoom={0.4}
-        zoomStep={0.5}
+        zoomStep={1.2}
         initialZoom={1}
-        onDoubleTapAfter={closeModal}
+        onDoubleTapAfter={DoubleTap}
         onZoomEnd={ZoomEnding}>
         {selectedImage && (
           <Image source={{uri: selectedImage}} style={styles.modalImage} />
