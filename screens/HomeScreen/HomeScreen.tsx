@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
-import {observer} from 'mobx-react-lite';
 import {unsplashStore} from '../../stores/UnsplashStore';
 
 import ImageModal from '../../modals/ImageModal/ImageModal';
 import Search from '../../components/Search/Search';
 import ImageList from '../../components/ImagesList/ImageList';
 
-const HomeScreen = observer(() => {
+const HomeScreen = () => {
   const [text, setText] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -72,6 +71,6 @@ const HomeScreen = observer(() => {
       />
     </View>
   );
-});
+};
 
 export default HomeScreen;

@@ -1,5 +1,6 @@
 import React from 'react';
 import {FlatList, RefreshControl} from 'react-native';
+import {observer} from 'mobx-react-lite';
 
 import ImageItem from './ImageItem/ImageItem';
 import {styles} from './InageListStyle';
@@ -12,7 +13,7 @@ interface ImageListProps {
   onPressItem: (item: string) => void;
 }
 
-const ImageList: React.FC<ImageListProps> = ({
+const ImageList: React.FC<ImageListProps> = observer(({
   photos,
   refreshing,
   onRefresh,
@@ -35,6 +36,6 @@ const ImageList: React.FC<ImageListProps> = ({
       }
       onEndReached={handleEndReached}></FlatList>
   );
-};
+});
 
 export default ImageList;

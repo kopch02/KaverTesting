@@ -28,7 +28,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
     gestureState: PanResponderGestureState,
     zoomableViewEventObject: ZoomableViewEvent,
   ) => {
-    if (zoomableViewEventObject.zoomLevel <= 0.6) {
+    if (zoomableViewEventObject.zoomLevel <= 0.8) {
       closeModal();
     }
   };
