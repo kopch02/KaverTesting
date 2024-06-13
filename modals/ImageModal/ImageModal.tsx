@@ -42,24 +42,39 @@ const ImageModal: React.FC<ImageModalProps> = ({
     zoomableViewEventObject.zoomLevel += 6;
   };
 
+  const handleShiftingEnd = (
+    event: GestureResponderEvent,
+    gestureState: PanResponderGestureState,
+    zoomableViewEventObject:ZoomableViewEvent,
+  ) => {
+    if (gestureState.dy < -150) {
+      closeModal();
+    }
+    else if (gestureState.dy > 150) {
+        closeModal();
+    }
+  };
+
   return (
     <Modal
       visible={modalVisible}
       transparent={true}
       onRequestClose={closeModal}>
-        <Pressable onPress={closeModal} style={styles.button}>
-            <Text style={styles.button_text}>X</Text>
-        </Pressable>
+      
+      <Pressable onPress={closeModal} style={styles.button}>
+        <Text style={styles.button_text}>X</Text>
+      </Pressable>
       <ReactNativeZoomableView
         maxZoom={10}
-        minZoom={0.8}
+        minZoom={1}
         zoomStep={1.2}
         initialZoom={1}
         onDoubleTapAfter={DoubleTap}
         onZoomEnd={ZoomEnding}
+        onShiftingEnd={handleShiftingEnd}
         style={styles.modalContainer}>
         {selectedImage && (
-          <Image source={{uri: selectedImage}} style={styles.modalImage}/>
+          <Image source={{uri: selectedImage}} style={styles.modalImage} />
         )}
       </ReactNativeZoomableView>
     </Modal>
