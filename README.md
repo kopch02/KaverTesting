@@ -70,7 +70,10 @@ yarn ios
 
 # Иллюстрации проекта
 
-![гланвый_экран](TestProject\readmeImg\1.jpg)
+![гланвый_экран](/TestProject/readmeImg/1.jpg)
+![фотография в полноэкранном режиме](/TestProject/readmeImg/2.jpg)
+![удержании на фотографии](/TestProject/readmeImg/3.jpg)
+![поиск](/TestProject/readmeImg/4.jpg)
 
 # В планах
 - [ ] Доработать возможность скачивания фотографии (покачто работает только на эмуляторе)
