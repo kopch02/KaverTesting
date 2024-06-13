@@ -5,6 +5,6 @@ export const styles = StyleSheet.create({
     width: '90%',
     height: '90%',
     resizeMode: 'contain',
-    alignSelf:"center"
+    alignSelf: 'center',
   },
 });

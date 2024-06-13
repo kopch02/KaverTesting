@@ -6,16 +6,16 @@ import {
   Text,
   Pressable,
 } from 'react-native';
-import {useEffect, useState} from 'react';
 import React from 'react';
 import {styles} from './ImageModalStyle';
 import {
   ReactNativeZoomableView,
   ZoomableViewEvent,
 } from '@openspacelabs/react-native-zoomable-view';
+import downloadImage from '../../utils/DownloadImage';
 
 interface ImageModalProps {
-  selectedImage: string | null;
+  selectedImage: {regular: string; download: string} | null;
   closeModal: () => void;
   modalVisible: boolean;
 }
@@ -45,13 +45,12 @@ const ImageModal: React.FC<ImageModalProps> = ({
   const handleShiftingEnd = (
     event: GestureResponderEvent,
     gestureState: PanResponderGestureState,
-    zoomableViewEventObject:ZoomableViewEvent,
+    zoomableViewEventObject: ZoomableViewEvent,
   ) => {
-    if (gestureState.dy < -150) {
+    if (gestureState.dy < -300) {
       closeModal();
-    }
-    else if (gestureState.dy > 150) {
-        closeModal();
+    } else if (gestureState.dy > 300) {
+      closeModal();
     }
   };
 
@@ -60,7 +59,13 @@ const ImageModal: React.FC<ImageModalProps> = ({
       visible={modalVisible}
       transparent={true}
       onRequestClose={closeModal}>
-      
+      {selectedImage && (
+        <Pressable
+          onPress={() => downloadImage(selectedImage.download)}
+          style={styles.button_download}>
+          <Text style={styles.button_text}>D</Text>
+        </Pressable>
+      )}
       <Pressable onPress={closeModal} style={styles.button}>
         <Text style={styles.button_text}>X</Text>
       </Pressable>
@@ -74,7 +79,10 @@ const ImageModal: React.FC<ImageModalProps> = ({
         onShiftingEnd={handleShiftingEnd}
         style={styles.modalContainer}>
         {selectedImage && (
-          <Image source={{uri: selectedImage}} style={styles.modalImage} />
+          <Image
+            source={{uri: selectedImage.regular}}
+            style={styles.modalImage}
+          />
         )}
       </ReactNativeZoomableView>
     </Modal>

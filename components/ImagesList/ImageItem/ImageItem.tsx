@@ -4,13 +4,18 @@ import {TouchableOpacity, Image} from 'react-native';
 import {styles} from './InageItemStyle';
 
 interface ImageItemProps {
-  image: string;
-  onPress: (image: string) => void;
-  onLongPress: (image: string) => void;
+  image: {regular: string; download: string};
+  onPress: (image: {regular: string; download: string}) => void;
+  onLongPress: (image: {regular: string; download: string}) => void;
   onPressOut: () => void;
 }
 
-const ImageItem: React.FC<ImageItemProps> = ({image, onPress, onLongPress, onPressOut}) => {
+const ImageItem: React.FC<ImageItemProps> = ({
+  image,
+  onPress,
+  onLongPress,
+  onPressOut,
+}) => {
   return (
     <TouchableOpacity
       style={styles.imageContainer}
@@ -18,7 +23,7 @@ const ImageItem: React.FC<ImageItemProps> = ({image, onPress, onLongPress, onPre
       onLongPress={() => onLongPress(image)}
       delayLongPress={300}
       onPressOut={onPressOut}>
-      <Image source={{uri: image}} style={styles.image} />
+      <Image source={{uri: image.regular}} style={styles.image} />
     </TouchableOpacity>
   );
 };

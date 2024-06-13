@@ -1,7 +1,4 @@
-import {
-  Modal,
-  Image,
-} from 'react-native';
+import {Modal, Image} from 'react-native';
 
 import React from 'react';
 import {styles} from './ImageHoldModalStyle';
@@ -17,15 +14,14 @@ const ImageHoldModal: React.FC<ImageModalProps> = ({
   closeModal,
   modalVisible,
 }) => {
-
   return (
     <Modal
       visible={modalVisible}
       transparent={true}
       onRequestClose={closeModal}>
-        {selectedImage && (
-          <Image source={{uri: selectedImage}} style={styles.modalImage}/>
-        )}
+      {selectedImage && (
+        <Image source={{uri: selectedImage}} style={styles.modalImage} />
+      )}
     </Modal>
   );
 };

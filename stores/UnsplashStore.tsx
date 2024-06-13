@@ -4,7 +4,7 @@ import unsplashApi from '../api/api';
 import {Int32} from 'react-native/Libraries/Types/CodegenTypes';
 
 class UnsplashStore {
-  photos: string[] = [];
+  photos: {regular: string; download: string}[] = [];
   loading: boolean = false;
   error: string | null = null;
 
@@ -24,7 +24,10 @@ class UnsplashStore {
       runInAction(() => {
         // console.log('Ответ получен:', response.data);
         console.log('Ответ получен');
-        this.photos = response.data.map((photo: any) => photo.urls.regular);
+        this.photos = response.data.map((photo: any) => ({
+          regular: photo.urls.regular,
+          download: photo.links.download,
+        }));
         this.loading = false;
       });
     } catch (error) {

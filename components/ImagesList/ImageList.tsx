@@ -6,12 +6,12 @@ import ImageItem from './ImageItem/ImageItem';
 import {styles} from './InageListStyle';
 
 interface ImageListProps {
-  photos: string[];
+  photos: {regular: string; download: string}[];
   refreshing: boolean;
   onRefresh: () => void;
   handleEndReached: () => void;
-  onPressItem: (item: string) => void;
-  onLongPressItem: (item: string) => void;
+  onPressItem: (item: {regular: string; download: string}) => void;
+  onLongPressItem: (item: {regular: string; download: string}) => void;
   onPressOut: () => void;
 }
 
@@ -25,7 +25,11 @@ const ImageList: React.FC<ImageListProps> = observer(
     onLongPressItem,
     onPressOut,
   }) => {
-    const renderItem = ({item}: {item: string}) => (
+    const renderItem = ({
+      item,
+    }: {
+      item: {regular: string; download: string};
+    }) => (
       <ImageItem
         image={item}
         onPress={onPressItem}

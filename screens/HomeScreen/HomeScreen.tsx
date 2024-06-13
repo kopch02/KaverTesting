@@ -10,12 +10,17 @@ import ImageList from '../../components/ImagesList/ImageList';
 const HomeScreen = () => {
   const [text, setText] = useState('');
   const [refreshing, setRefreshing] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<{
+    regular: string;
+    download: string;
+  } | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [holdModalVisible, setHoldModalVisible] = useState(false);
-  const [photos, setPhotos] = useState<string[]>([]);
+  const [photos, setPhotos] = useState<{regular: string; download: string}[]>(
+    [],
+  );
 
-  const addPhotos = (newPhotos: string[]) => {
+  const addPhotos = (newPhotos: {regular: string; download: string}[]) => {
     setPhotos(prevPhotos => [...prevPhotos, ...newPhotos]);
   };
 
@@ -44,12 +49,12 @@ const HomeScreen = () => {
     addPhotos(res);
   };
 
-  const handleImagePress = (imageUri: string) => {
+  const handleImagePress = (imageUri: {regular: string; download: string}) => {
     setSelectedImage(imageUri);
     setModalVisible(true);
   };
 
-  const handleImageHold = (imageUri: string) => {
+  const handleImageHold = (imageUri: {regular: string; download: string}) => {
     setSelectedImage(imageUri);
     setHoldModalVisible(true);
   };
@@ -82,11 +87,13 @@ const HomeScreen = () => {
         closeModal={closeModal}
         modalVisible={modalVisible}
       />
-      <ImageHoldModal
-        selectedImage={selectedImage}
-        closeModal={closeHoldModal}
-        modalVisible={holdModalVisible}
-      />
+      {selectedImage && (
+        <ImageHoldModal
+          selectedImage={selectedImage.regular}
+          closeModal={closeHoldModal}
+          modalVisible={holdModalVisible}
+        />
+      )}
     </View>
   );
 };
