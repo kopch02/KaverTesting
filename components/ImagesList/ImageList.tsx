@@ -3,7 +3,7 @@ import {FlatList, RefreshControl} from 'react-native';
 import {observer} from 'mobx-react-lite';
 
 import ImageItem from './ImageItem/ImageItem';
-import {styles} from './InageListStyle';
+import {styles} from './ImageListStyle';
 
 interface ImageListProps {
   photos: {regular: string; download: string}[];

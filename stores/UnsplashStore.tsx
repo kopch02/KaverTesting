@@ -15,7 +15,7 @@ class UnsplashStore {
   async searchPhotos(query: string, count: Int32 = 30) {
     this.loading = true;
     this.error = null;
-    console.log('Поиск фотографий начался...');
+    // console.log('Поиск фотографий начался...');
 
     try {
       const response = await unsplashApi.get('/photos/random', {
@@ -23,7 +23,7 @@ class UnsplashStore {
       });
       runInAction(() => {
         // console.log('Ответ получен:', response.data);
-        console.log('Ответ получен');
+        // console.log('Ответ получен');
         this.photos = response.data.map((photo: any) => ({
           regular: photo.urls.regular,
           download: photo.links.download,
