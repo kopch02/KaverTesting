@@ -6,5 +6,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     padding: 10,
+    paddingLeft:20,
+    fontSize:17,
   },
 });

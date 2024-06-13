@@ -3,6 +3,7 @@ import {View, Text} from 'react-native';
 import {unsplashStore} from '../../stores/UnsplashStore';
 
 import ImageModal from '../../modals/ImageModal/ImageModal';
+import ImageHoldModal from '../../modals/ImageHoldModal/ImageHoldModal';
 import Search from '../../components/Search/Search';
 import ImageList from '../../components/ImagesList/ImageList';
 
@@ -11,6 +12,7 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [holdModalVisible, setHoldModalVisible] = useState(false);
   const [photos, setPhotos] = useState<string[]>([]);
 
   const addPhotos = (newPhotos: string[]) => {
@@ -47,9 +49,18 @@ const HomeScreen = () => {
     setModalVisible(true);
   };
 
+  const handleImageHold = (imageUri: string) => {
+    setSelectedImage(imageUri);
+    setHoldModalVisible(true);
+  };
+
   const closeModal = () => {
     setSelectedImage(null);
     setModalVisible(false);
+  };
+  const closeHoldModal = () => {
+    setSelectedImage(null);
+    setHoldModalVisible(false);
   };
 
   return (
@@ -63,11 +74,18 @@ const HomeScreen = () => {
         onRefresh={onRefresh}
         handleEndReached={handleEndReached}
         onPressItem={handleImagePress}
+        onLongPressItem={handleImageHold}
+        onPressOut={closeHoldModal}
       />
       <ImageModal
         selectedImage={selectedImage}
         closeModal={closeModal}
         modalVisible={modalVisible}
+      />
+      <ImageHoldModal
+        selectedImage={selectedImage}
+        closeModal={closeHoldModal}
+        modalVisible={holdModalVisible}
       />
     </View>
   );

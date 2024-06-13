@@ -3,6 +3,8 @@ import {
   Image,
   GestureResponderEvent,
   PanResponderGestureState,
+  Text,
+  Pressable,
 } from 'react-native';
 import {useEffect, useState} from 'react';
 import React from 'react';
@@ -28,7 +30,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
     gestureState: PanResponderGestureState,
     zoomableViewEventObject: ZoomableViewEvent,
   ) => {
-    if (zoomableViewEventObject.zoomLevel <= 0.8) {
+    if (zoomableViewEventObject.zoomLevel <= 0.9) {
       closeModal();
     }
   };
@@ -45,15 +47,19 @@ const ImageModal: React.FC<ImageModalProps> = ({
       visible={modalVisible}
       transparent={true}
       onRequestClose={closeModal}>
+        <Pressable onPress={closeModal} style={styles.button}>
+            <Text style={styles.button_text}>X</Text>
+        </Pressable>
       <ReactNativeZoomableView
         maxZoom={10}
-        minZoom={0.4}
+        minZoom={0.8}
         zoomStep={1.2}
         initialZoom={1}
         onDoubleTapAfter={DoubleTap}
-        onZoomEnd={ZoomEnding}>
+        onZoomEnd={ZoomEnding}
+        style={styles.modalContainer}>
         {selectedImage && (
-          <Image source={{uri: selectedImage}} style={styles.modalImage} />
+          <Image source={{uri: selectedImage}} style={styles.modalImage}/>
         )}
       </ReactNativeZoomableView>
     </Modal>
