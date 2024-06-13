@@ -25,32 +25,35 @@
 
 ## установить все необходимые библиотеки
 
+используя npm
 ```bash
-# используя npm
 npm i
-
-# или используя Yarn
+```
+или используя Yarn
+```bash
 yarn
 ```
 ## запуск dev сервера
 
 ### для Android
 
+используя npm
 ```bash
-# используя npm
 npm run android
-
-# или используя Yarn
+```
+или используя Yarn
+```bash
 yarn android
 ```
 
 ### для iOS
 
+используя npm
 ```bash
-# используя npm
 npm run ios
-
-# или используя Yarn
+```
+или используя Yarn
+```bash
 yarn ios
 ```
 
