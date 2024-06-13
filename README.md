@@ -70,7 +70,7 @@ yarn ios
 
 # Иллюстрации проекта
 
-![гланвый_экран](TestProject\readmeImg\1.jpg)
+![гланвый_экран]([TestProject\readmeImg\1.jpg](https://github.com/kopch02/KaverTesting/blob/main/readmeImg/1.jpg))
 
 # В планах
 - [ ] Доработать возможность скачивания фотографии (покачто работает только на эмуляторе)
