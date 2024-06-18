@@ -5,8 +5,9 @@ import {
   PanResponderGestureState,
   Text,
   Pressable,
+  Animated,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {styles} from './ImageModalStyle';
 import {
   ReactNativeZoomableView,
@@ -25,6 +26,14 @@ const ImageModal: React.FC<ImageModalProps> = ({
   closeModal,
   modalVisible,
 }) => {
+  const modalAnimate = new Animated.Value(0);
+
+  Animated.timing(modalAnimate, {
+    toValue: 1,
+    duration: 500,
+    useNativeDriver: true,
+  }).start();
+
   const ZoomEnding = (
     event: GestureResponderEvent,
     gestureState: PanResponderGestureState,
@@ -59,32 +68,35 @@ const ImageModal: React.FC<ImageModalProps> = ({
       visible={modalVisible}
       transparent={true}
       onRequestClose={closeModal}>
-      {selectedImage && (
-        <Pressable
-          onPress={() => downloadImage(selectedImage.download)}
-          style={styles.button_download}>
-          <Text style={styles.button_text}>D</Text>
-        </Pressable>
-      )}
-      <Pressable onPress={closeModal} style={styles.button}>
-        <Text style={styles.button_text}>X</Text>
-      </Pressable>
-      <ReactNativeZoomableView
-        maxZoom={10}
-        minZoom={1}
-        zoomStep={1.2}
-        initialZoom={1}
-        onDoubleTapAfter={DoubleTap}
-        onZoomEnd={ZoomEnding}
-        onShiftingEnd={handleShiftingEnd}
-        style={styles.modalContainer}>
+      <Animated.View
+        style={{opacity: modalAnimate, width: '100%', height: '100%'}}>
         {selectedImage && (
-          <Image
-            source={{uri: selectedImage.regular}}
-            style={styles.modalImage}
-          />
+          <Pressable
+            onPress={() => downloadImage(selectedImage.download)}
+            style={styles.button_download}>
+            <Text style={styles.button_text}>D</Text>
+          </Pressable>
         )}
-      </ReactNativeZoomableView>
+        <Pressable onPress={closeModal} style={styles.button}>
+          <Text style={styles.button_text}>X</Text>
+        </Pressable>
+        <ReactNativeZoomableView
+          maxZoom={10}
+          minZoom={1}
+          zoomStep={1.2}
+          initialZoom={1}
+          onDoubleTapAfter={DoubleTap}
+          onZoomEnd={ZoomEnding}
+          onShiftingEnd={handleShiftingEnd}
+          style={styles.modalContainer}>
+          {selectedImage && (
+            <Image
+              source={{uri: selectedImage.regular}}
+              style={styles.modalImage}
+            />
+          )}
+        </ReactNativeZoomableView>
+      </Animated.View>
     </Modal>
   );
 };
